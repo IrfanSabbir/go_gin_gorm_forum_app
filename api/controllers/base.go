@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	models "github.com/IrfanSabbir/go_gin_gorm_forum_app/api/models"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -26,6 +28,13 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	} else {
 		fmt.Printf("We are connected to the %s database", Dbdriver)
 	}
+	server.DB.Debug().AutoMigrate(
+		&models.User{},
+		&models.Post{},
+		&models.Comment{},
+		&models.ResetPassword{},
+		models.Like{},
+	)
 
 	server.Router = gin.Default()
 
