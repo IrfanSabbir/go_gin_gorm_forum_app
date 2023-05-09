@@ -17,6 +17,8 @@ type Server struct {
 	Router *gin.Engine
 }
 
+var errList = make(map[string]string)
+
 func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
 	var err error
 

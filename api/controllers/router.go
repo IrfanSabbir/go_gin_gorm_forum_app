@@ -12,5 +12,6 @@ func (s *Server) InitializeRoute() {
 				"message": "pong",
 			})
 		})
+		v1.POST("/register", s.CreateUser)
 	}
 }
