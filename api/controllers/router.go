@@ -13,5 +13,6 @@ func (s *Server) InitializeRoute() {
 			})
 		})
 		v1.POST("/register", s.CreateUser)
+		v1.POST("/signin", s.SignIn)
 	}
 }

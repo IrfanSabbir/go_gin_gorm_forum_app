@@ -43,7 +43,21 @@ func (u *User) Validate(action string) map[string]string {
 	var errList = make(map[string]string)
 	var errMessage error
 	switch strings.ToLower(action) {
-	case "update":
+	case "login":
+		if u.Email == "" {
+			errMessage = errors.New("Email cant be empty")
+			errList["Required_email"] = errMessage.Error()
+		}
+		if u.Email != "" {
+			if errMessage = checkmail.ValidateFormat(u.Email); errMessage != nil {
+				errList["Invalid_email"] = errMessage.Error()
+			}
+		}
+
+		if u.Password == "" {
+			errMessage = errors.New("Password cant be empty")
+			errList["Required_password"] = errMessage.Error()
+		}
 	default:
 		if u.Username == "" {
 			errMessage = errors.New("Username cant be empty")
@@ -80,4 +94,13 @@ func (u *User) SaveUser(db *gorm.DB) (*User, error) {
 	}
 	u.Password = ""
 	return u, nil
+}
+
+func (u *User) GetUserByEmail(db *gorm.DB) (User, error) {
+	var userExist User
+	err := db.Debug().Where("email = ?", u.Email).Find(&userExist).Error
+	if err != nil {
+		return User{}, err
+	}
+	return userExist, nil
 }
