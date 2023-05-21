@@ -124,7 +124,7 @@ func (server *Server) SignIn(c *gin.Context) {
 		return
 
 	}
-	token, err := auth.GenerateToken(user.ID)
+	token, err := auth.GenerateToken(userData.ID)
 	if err != nil {
 
 		errList["JWT_error"] = err.Error()
